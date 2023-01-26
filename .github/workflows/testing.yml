@@ -14,45 +14,45 @@ jobs:
         run: pip install black
       - name: "Run style check"
         run: black --check .
-test:
-    needs: style_check
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-pythonv2
-        with:
-          python-version: "3.8"
-      - name: "Install coverage"
-        run: pip install coverage
-      - name: "Run unittest"
-        run: python -m unittest
-      - name: "Run coverage"
-        run: coverage run -m pytest
-      - name: "Upload artifact"
-        uses: actions/upload-artifact@v2
-        with:
-          name: coverage-artifact
-          path: .coverage
-          retention-days: 1
-coverage_report:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-pythonv2
-        with:
-          python-version: "3.8"
-      - name: "Install coverage"
-        run: pip install coverage
-      - name: "Download a single artifact"
-        uses: actions/download-artifact@v2
-        with:
-          name: coverage-artifact
-      - name: "Run coverage report"
-        run: coverage report
-      - name: "Upload artifact"
-        uses: actions/upload-artifact@v2
-        with:
-          name: coverage-report
-          path: coverage.xml
-          retention-days: 14
+  test:
+      needs: style_check
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+        - uses: actions/setup-python@v2
+          with:
+            python-version: "3.8"
+        - name: "Install coverage"
+          run: pip install coverage
+        - name: "Run unittest"
+          run: python -m unittest
+        - name: "Run coverage"
+          run: coverage run -m pytest
+        - name: "Upload artifact"
+          uses: actions/upload-artifact@v2
+          with:
+            name: coverage-artifact
+            path: .coverage
+            retention-days: 1
+  coverage_report:
+      needs: test
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+        - uses: actions/setup-python@v2
+          with:
+            python-version: "3.8"
+        - name: "Install coverage"
+          run: pip install coverage
+        - name: "Download a single artifact"
+          uses: actions/download-artifact@v2
+          with:
+            name: coverage-artifact
+        - name: "Run coverage report"
+          run: coverage report
+        - name: "Upload artifact"
+          uses: actions/upload-artifact@v2
+          with:
+            name: coverage-report
+            path: coverage.xml
+            retention-days: 14

@@ -46,8 +46,8 @@ class SolveDiffusion2D:
         self.ny = int(h / dy)
 
         for member in [self.w, self.h, self.dx, self.dy]:
-            assert (
-                type(member) == float
+            assert isinstance(
+                member, float
             ), "Variable with value {} is not a float".format(member)
 
     def initialize_physical_parameters(self, d=4.0, T_cold=300.0, T_hot=700.0):
@@ -62,8 +62,8 @@ class SolveDiffusion2D:
         print("dt = {}".format(self.dt))
 
         for member in [self.D, self.T_cold, self.T_hot]:
-            assert (
-                type(member) == float
+            assert isinstance(
+                member, float
             ), "Variable with value {} is not a float".format(member)
 
     def set_initial_condition(self):
@@ -86,7 +86,8 @@ class SolveDiffusion2D:
         dx2 = self.dx * self.dx
         dy2 = self.dy * self.dy
 
-        # Propagate with forward-difference in time, central-difference in space
+        # Propagate with forward-difference in time, central-difference in
+        # space
         u[1:-1, 1:-1] = u_nm1[1:-1, 1:-1] + self.D * self.dt * (
             (u_nm1[2:, 1:-1] - 2 * u_nm1[1:-1, 1:-1] + u_nm1[:-2, 1:-1]) / dx2
             + (u_nm1[1:-1, 2:] - 2 * u_nm1[1:-1, 1:-1] + u_nm1[1:-1, :-2]) / dy2

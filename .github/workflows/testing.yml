@@ -14,7 +14,7 @@ jobs:
       - name: Run style check
         run: black --check .
 
-test:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -34,7 +34,7 @@ test:
           path: .coverage
           retention-days: 1
 
-coverage_report:
+  coverage_report:
     needs: test
     runs-on: ubuntu-latest
     steps:

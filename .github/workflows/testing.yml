@@ -35,7 +35,7 @@ test:
           retention-days: 1
 
 coverage_report:
-  needs: test
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

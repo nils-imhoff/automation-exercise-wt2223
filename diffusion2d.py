@@ -46,9 +46,7 @@ class SolveDiffusion2D:
         self.ny = int(h / dy)
 
         for member in [self.w, self.h, self.dx, self.dy]:
-            assert (
-                type(member) == float
-            ), "Variable with value {} is not a float".format(member)
+            assert (type(member) == float), "Variable with value {} is not a float".format(member)
 
     def initialize_physical_parameters(self, d=4.0, T_cold=300.0, T_hot=700.0):
         self.D = d
@@ -62,9 +60,7 @@ class SolveDiffusion2D:
         print("dt = {}".format(self.dt))
 
         for member in [self.D, self.T_cold, self.T_hot]:
-            assert (
-                type(member) == float
-            ), "Variable with value {} is not a float".format(member)
+            assert (type(member) == float), "Variable with value {} is not a float".format(member)
 
     def set_initial_condition(self):
         u = self.T_cold * np.ones((self.nx, self.ny))
@@ -88,18 +84,15 @@ class SolveDiffusion2D:
 
         # Propagate with forward-difference in time, central-difference in space
         u[1:-1, 1:-1] = u_nm1[1:-1, 1:-1] + self.D * self.dt * (
-            (u_nm1[2:, 1:-1] - 2 * u_nm1[1:-1, 1:-1] + u_nm1[:-2, 1:-1]) / dx2
-            + (u_nm1[1:-1, 2:] - 2 * u_nm1[1:-1, 1:-1] + u_nm1[1:-1, :-2]) / dy2
-        )
+                (u_nm1[2:, 1:-1] - 2 * u_nm1[1:-1, 1:-1] + u_nm1[:-2, 1:-1]) / dx2 + (
+                    u_nm1[1:-1, 2:] - 2 * u_nm1[1:-1, 1:-1] + u_nm1[1:-1, :-2]) / dy2)
 
         return u.copy()
 
     def create_figure(self, fig, u, n, fignum):
         fignum += 1
         ax = fig.add_subplot(220 + fignum)
-        im = ax.imshow(
-            u.copy(), cmap=plt.get_cmap("hot"), vmin=self.T_cold, vmax=self.T_hot
-        )
+        im = ax.imshow(u.copy(), cmap=plt.get_cmap("hot"), vmin=self.T_cold, vmax=self.T_hot)
         ax.set_axis_off()
         ax.set_title("{:.1f} ms".format(n * self.dt * 1000))
 
